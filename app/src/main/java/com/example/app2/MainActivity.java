@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -21,13 +22,17 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     EditText userid;
+    EditText username;
     Button getButton;
+    Button postButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userid = (EditText)findViewById(R.id.stuid);
+        username = (EditText)findViewById(R.id.name);
         getButton = (Button)findViewById(R.id.get);
+        postButton = (Button)findViewById(R.id.post);
 
         getButton.setOnClickListener(new View.OnClickListener(){
             String result = null;
@@ -37,15 +42,40 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String id = userid.getText().toString();
                     result = task.execute(id).get();
+                    ObjectMapper objectMapper = new ObjectMapper();
+
+                    try {
+                        Student stu = objectMapper.readValue(result,Student.class);
+                        Toast.makeText(getApplicationContext(),stu.toString(),Toast.LENGTH_LONG).show();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
 
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             }
         });
+
+        postButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String id = userid.getText().toString();
+                String name = username.getText().toString();
+                StudentPostTask studentPostTask = new StudentPostTask();
+                try {
+                    String status = studentPostTask.execute(id, name).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
     protected  class MyTask extends AsyncTask<String, Void, String>
     {

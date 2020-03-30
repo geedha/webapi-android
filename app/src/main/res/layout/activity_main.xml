@@ -19,11 +19,25 @@
             android:hint="userid"
             android:inputType="textPersonName" />
 
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="name"
+            android:inputType="textPersonName" />
+
         <Button
             android:id="@+id/get"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Get details" />
+
+        <Button
+            android:id="@+id/post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
