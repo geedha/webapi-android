@@ -2,6 +2,7 @@ package com.example.app2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     EditText username;
     Button getButton;
     Button postButton;
+    Button viewAllButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         username = (EditText)findViewById(R.id.name);
         getButton = (Button)findViewById(R.id.get);
         postButton = (Button)findViewById(R.id.post);
+        viewAllButton = (Button)findViewById(R.id.viewall);
+
+        viewAllButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,AllStudents.class);
+                startActivity(i);
+            }
+        });
 
         getButton.setOnClickListener(new View.OnClickListener(){
             String result = null;
